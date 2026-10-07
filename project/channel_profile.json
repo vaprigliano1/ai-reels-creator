@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "approved": false,
+  "channel_name": "",
+  "audience": "",
+  "themes": [],
+  "language_code": "",
+  "tone": "",
+  "visual_direction": "",
+  "target_duration_seconds": null,
+  "avatar_width_fraction": 0.44,
+  "caption_size": 46,
+  "caption_center_y_fraction": 0.58,
+  "voice_settings": {},
+  "media_preferences": [],
+  "restrictions": [],
+  "approval_policy": "manual"
+}

@@ -1,0 +1,11 @@
+# Keep credentials, local environments and generated media out of this repository.
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+videos/
+private-references/
+logs/
