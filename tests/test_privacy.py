@@ -10,6 +10,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 SECRET_PATTERNS = {
     "provider_key": rb"\bsk_[A-Za-z0-9_-]{24,}\b",
+    "render_key": rb"\brnd_[A-Za-z0-9_-]{20,}\b",
     "openai_key": rb"\bsk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{24,}\b",
     "github_token": rb"\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})\b",
     "aws_key": rb"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b",
