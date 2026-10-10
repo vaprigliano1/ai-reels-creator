@@ -3,7 +3,7 @@ name: channel-video
 description: Produz ou retoma vídeos narrados para um canal configurado pelo proprietário, com pesquisa, roteiro, áudio ElevenLabs, lip-sync HeyGen, mídia de apoio, legendas, aprovação e MP4 final. Use para produção completa ou onboarding, não para publicar posts.
 ---
 
-# Channel Video
+# AI Reels Creator
 
 Este método não traz identidade de canal, credenciais, modelos ou pessoas predefinidas. Leia o `AGENTS.md` do projeto. No projeto instalado, os helpers estão em `.agent/skills/channel-video/scripts/`.
 

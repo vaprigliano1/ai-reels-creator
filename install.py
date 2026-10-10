@@ -25,7 +25,7 @@ def install(workspace: Path, install_skill: bool = False, setup_python: bool = F
             raise ValueError("channel-video skill already exists; inspect it before installing another version")
     workspace.mkdir(parents=True, exist_ok=True)
     for name in ("AGENTS.md", "channel_context.md", "channel_profile.json", ".env.example", ".gitignore"):
-        shutil.copyfile(source / "project" / name, workspace / name)
+        shutil.copyfile(source / "templates/channel" / name, workspace / name)
     shutil.copyfile(workspace / ".env.example", workspace / ".env")
     (workspace / ".env").chmod(0o600)
     shutil.copyfile(source / "requirements.txt", workspace / "requirements.txt")

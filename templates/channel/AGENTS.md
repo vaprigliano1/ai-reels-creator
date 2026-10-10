@@ -1,4 +1,4 @@
-# Projeto de vídeos do proprietário deste canal
+# AI Reels Creator — projeto do canal
 
 Use a skill `channel-video` em `.agent/skills/channel-video/SKILL.md` para produzir ou retomar vídeos completos. Leia o contexto aprovado do canal, não o de outro projeto.
 

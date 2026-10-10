@@ -1,5 +1,4 @@
 """No-network behavior tests, using only synthetic temporary workspaces."""
-import hashlib
 import importlib.util
 import io
 import json
@@ -11,10 +10,12 @@ import tempfile
 import unittest
 from contextlib import redirect_stdout
 from unittest.mock import patch
+
+
+ROOT = Path(__file__).resolve().parents[1]
+HERE = ROOT / "skills/channel-video/scripts"
+sys.path.insert(0, str(HERE))
 from common import sha256, json_write
-
-
-HERE = Path(__file__).resolve().parent
 
 
 def load(name):
@@ -42,13 +43,9 @@ def fixture(root):
     return env, topic / "video_test", speech
 
 
-class KitTests(unittest.TestCase):
+class WorkflowTests(unittest.TestCase):
     def test_installer_refuses_overwrite_and_keeps_configuration_blank(self):
-        # Included only when tests run from the distributable source tree.
-        package = HERE.parents[2]
-        installer_path = package / "install.py"
-        if not installer_path.is_file():
-            self.skipTest("Installer integration runs from the source package")
+        installer_path = ROOT / "install.py"
         spec = importlib.util.spec_from_file_location("kit_install", installer_path)
         installer = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(installer)
@@ -57,6 +54,11 @@ class KitTests(unittest.TestCase):
             skill_root = Path(tmp) / "skills"
             installed = installer.install(target, install_skill=True, skill_root=skill_root)
             self.assertTrue((skill_root / "channel-video/SKILL.md").is_file())
+            self.assertTrue((installed / ".agent/skills/channel-video/scripts/doctor.py").is_file())
+            self.assertFalse((installed / ".agent/skills/channel-video/scripts/test_kit.py").exists())
+            self.assertEqual(set(path.name for path in installed.iterdir()),
+                             {"AGENTS.md", "channel_context.md", "channel_profile.json", ".env.example",
+                              ".env", ".gitignore", "requirements.txt", ".agent", "inputs", "videos", "private-references"})
             self.assertFalse(json.loads((installed / "channel_profile.json").read_text())["approved"])
             for line in (installed / ".env").read_text().splitlines():
                 if line and not line.startswith("#"):

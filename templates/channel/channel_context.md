@@ -1,4 +1,4 @@
-# Contexto do canal
+# Contexto editorial do canal
 
 Status: aguardando onboarding e aprovação do proprietário.
 

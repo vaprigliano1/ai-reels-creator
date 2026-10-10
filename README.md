@@ -1,76 +1,90 @@
 # AI Reels Creator
 
-Kit neutro para um agente produzir vídeos narrados com voz ElevenLabs, avatar HeyGen, mídias de apoio, legendas e MP4 final. Aceita qualquer tema, pedido avulso, pesquisa, texto publicado ou roteiro pronto. Não contém canal predefinido, credenciais, IDs, vozes, avatares ou mídias de outra pessoa.
+Transforme uma pauta em um Reel com a sua voz, o seu avatar e o estilo do seu canal.
+
+Um fluxo de produção para agentes como o Codex: pesquisa, roteiro, áudio ElevenLabs, lip-sync HeyGen, imagens e vídeos reais, legendas e entrega em MP4. Você aprova as decisões importantes; o agente organiza e executa a produção.
+
+[Começar](docs/getting-started.md) · [Como funciona](docs/workflow.md) · [Privacidade e custos](docs/privacy.md)
+
+## Do tema ao vídeo
+
+- **Conteúdo com contexto.** Comece com uma ideia, pesquisa, carrossel ou roteiro pronto. O agente adapta a abordagem ao seu público.
+- **Sua voz e seu avatar.** ElevenLabs gera o áudio; HeyGen anima o avatar com o mesmo arquivo aprovado.
+- **Mídias alinhadas à fala.** Imagens, vídeos, retratos e logos entram nos trechos relevantes, com fontes e créditos registrados.
+- **Revisão antes da entrega.** Aprove o áudio, as mídias e o preview. O fluxo não publica nem agenda posts.
+- **Um projeto organizado.** Roteiro, áudio, mídias e histórico ficam separados; a pasta de entrega contém apenas o MP4 final.
 
 ## O que você precisa
 
-- Agente com leitura/escrita de arquivos, terminal e ferramenta de pesquisa na web. Codex é a instalação descrita abaixo; outros agentes podem ler `AGENTS.md` e `SKILL.md` diretamente.
-- **Sua conta HeyGen**, chave de API e acesso/créditos para o motor de animação escolhido. A assinatura do aplicativo pode não incluir o acesso de API necessário; confira na própria conta.
-- **Seu avatar na HeyGen**, autorizado para uso, e seu `HEYGEN_AVATAR_ID` ou ID da aparência compatível com o endpoint usado. Confirme qual tipo de ID a sua conta expõe.
-- **Sua conta ElevenLabs**, chave de API com acesso a TTS e transcrição, e créditos disponíveis.
-- **Sua voz na ElevenLabs**, própria ou licenciada, e seu `ELEVENLABS_VOICE_ID`. Não é um ID de voz da HeyGen.
-- Python 3.11 ou superior, FFmpeg e FFprobe no PATH; acesso à internet e espaço para os vídeos.
+- Um agente com acesso a arquivos, terminal e pesquisa na web. A instalação abaixo inclui uma skill para Codex.
+- Uma conta **ElevenLabs**, chave de API, créditos e uma voz própria ou licenciada.
+- Uma conta **HeyGen**, chave de API, créditos e um avatar autorizado para uso.
+- Python **3.11+**, FFmpeg e FFprobe disponíveis no terminal.
 
-Nenhuma voz ou avatar é criado/clonado automaticamente. Referências de terceiros servem para discutir características, não como permissão para clonagem. O áudio é gerado na ElevenLabs e enviado à HeyGen somente para animar/sincronizar.
+Confirme o acesso de API e os modelos disponíveis nas suas contas. O repositório não inclui assinaturas, créditos, vozes, avatares nem credenciais.
 
-## Instalação
+## Comece aqui
 
-Clone este repositório ou baixe e descompacte o ZIP. No terminal da pasta do kit:
+Clone o repositório e instale em uma pasta nova ou vazia:
 
 ```sh
-python3 install.py --workspace /caminho/para/meu-canal --install-skill --setup-python
+git clone https://github.com/vaprigliano1/ai-reels-creator.git
+cd ai-reels-creator
+python3 install.py --workspace ../meu-canal --install-skill --setup-python
 ```
 
-Escolha uma pasta nova/vazia. O instalador cria o projeto, a configuração vazia, o ambiente Python e instala `channel-video` no diretório de skills do Codex. Se a skill já existir, ele para em vez de sobrescrevê-la. Para outro agente, omita `--install-skill`: o projeto já contém a skill em `.agent/skills/channel-video/`.
+Abra `meu-canal` no Codex e envie:
 
-Instale FFmpeg/FFprobe pelo método apropriado ao seu sistema. O instalador não modifica configurações globais nem instala esses binários por conta própria.
+> Leia AGENTS.md e use a skill channel-video. Me ajude a definir o contexto do meu canal, apresente-o para aprovação e confira a configuração antes de gerar mídia paga.
 
-Abra a pasta do novo projeto no agente e envie:
+O agente conduz uma conversa sobre público, temas, linguagem e estética. Depois, você preenche suas chaves e IDs no `.env` local — nunca na conversa.
 
-> Leia AGENTS.md e use a skill channel-video. Faça o onboarding do meu canal antes de gerar qualquer mídia paga. Se eu ainda não tiver um contexto, me entreviste e escreva um para minha aprovação.
+Com o contexto aprovado, peça o primeiro vídeo:
 
-O agente perguntará sobre público, assuntos, idioma, personalidade da voz, referências visuais, duração e restrições. Ele produzirá `channel_context.md` e `channel_profile.json` e pedirá confirmação. Não é necessário preencher manualmente um documento extenso.
+> Crie um Reel sobre este tema, seguindo o contexto do meu canal. Apresente o roteiro e um teste curto de voz antes da produção completa.
 
-Depois, preencha **seu próprio** `.env` local com suas chaves e IDs. Não cole segredos na conversa. Todos os campos sensíveis do pacote vêm vazios. O agente pode abrir o arquivo para você, mas não deve mostrar seus valores.
+Para Windows, outros agentes e instalação sem skill global, consulte o [guia de início](docs/getting-started.md).
 
-## Primeiro vídeo e rotina
+## Fluxo de produção
 
-Exemplo de pedido: “Crie um vídeo sobre este tema, usando o contexto do meu canal”. Também é possível anexar um dossiê ou pedir a adaptação de um texto existente.
+Pauta → pesquisa → roteiro → áudio aprovado → avatar → mídias aprovadas → montagem → preview → MP4 final.
 
-O agente pesquisa na medida necessária, escreve o roteiro, prepara falas e legenda do post, faz teste curto de voz e pede aprovação. Depois gera o áudio completo, pede aprovação de novo, anima seu avatar, transcreve o áudio, pesquisa mídias por trecho e apresenta uma página de aprovação. Só após as decisões baixa os arquivos finais e monta o vídeo.
+A pesquisa, a escrita e a direção visual são conduzidas pelo agente. Os scripts cuidam das etapas técnicas e do registro dos arquivos. Não é um aplicativo com frontend nem um comando que decide tudo sozinho.
 
-Você recebe `preview.mp4` para revisar. A versão consolidada fica em `videos/<tema>/video final/final_<pauta>.mp4`. Essa pasta contém somente MP4 finais; créditos, legenda do post, plano e histórico ficam fora dela.
+A entrega fica no projeto do seu canal:
 
-Os scripts são ferramentas do agente, não um botão que toma todas as decisões editoriais. Pesquisa, escrita, escolha de enquadramento e avaliação visual ainda dependem do agente e da sua aprovação. O renderizador incluído cobre montagem vertical com imagens/vídeos, avatar, overlays opcionais e legendas, sem exigir outro repositório de edição.
+```text
+videos/<tema>/
+├── reel_<pauta>.md          Roteiro, legenda do post e fontes
+├── falas_<pauta>.md         Texto preparado para a voz
+├── video_<pauta>/           Áudio, avatar, mídias, preview e histórico
+└── video final/
+    └── final_<pauta>.mp4    Versão consolidada
+```
 
-## Configuração e custos
+Veja os [passos, aprovações e entregáveis](docs/workflow.md).
 
-As chaves e IDs estão em `.env`. Idioma e estilo estão em `channel_profile.json`. Modelo de voz e motor HeyGen são escolhas do novo proprietário: não há um modelo privado ou ID herdado. O agente deve conferir disponibilidade, capacidades e limites na conta/documentação antes de sugerir a configuração; não presumir que o nome comercial de um modelo coincide com o seu `model_id`.
+## Dentro do repositório
 
-Geração de áudio, animação e transcrição podem consumir créditos. Os helpers de geração exigem `--allow-paid`; isso só deve ser usado após autorização humana. Não existe retry pago automático. O kit não contém créditos, assinaturas ou licenças de mídia. Uma aprovação estética não substitui autorização de uso de terceiros.
+- [`templates/channel/`](templates/channel/) — projeto inicial, perfil editorial e configuração vazia.
+- [`skills/channel-video/`](skills/channel-video/) — instruções do agente e ferramentas de produção.
+- [`docs/`](docs/) — instalação, fluxo e cuidados com privacidade.
+- [`tests/`](tests/) — testes locais, sem credenciais nem chamadas pagas.
 
-O token/API de Instagram e agendamento de posts **não fazem parte deste kit**. Criar ou aprovar um vídeo não autoriza sua publicação.
+## Desenvolvimento e verificação
 
-## Verificação
-
-Na pasta do novo projeto, usando o Python do ambiente `.venv`:
+Na pasta deste repositório:
 
 ```sh
-.venv/bin/python .agent/skills/channel-video/scripts/doctor.py --workspace .
-.venv/bin/python .agent/skills/channel-video/scripts/test_kit.py
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m unittest discover -s tests -v
 ```
 
-No Windows, use `.venv\Scripts\python.exe` no lugar de `.venv/bin/python`.
+No Windows, use `.venv\Scripts\python.exe`. Instale FFmpeg e FFprobe para executar também o teste de montagem. A integração com as APIs deve ser validada com um teste curto autorizado na conta de quem vai produzir.
 
-`doctor.py` não chama APIs nem imprime chaves. Os testes usam arquivos sintéticos e simulações, sem cobrança. A integração real deve ser validada com uma amostra curta **na sua própria conta**, após autorização.
+## Privacidade, custos e direitos
 
-Para renderizar, o agente usa `edit/render_plan.json`, com fontes aprovadas e tempos medidos. Leia `skills/channel-video/references/operations.md` para os comandos e `render-plan.md` para o contrato.
+Cada canal começa sem identidade ou credenciais herdadas. Gerações pagas exigem autorização; não há repetição automática de uma tentativa incerta. Uma mídia pública não é necessariamente licenciada, e aprovar o vídeo não autoriza publicá-lo.
 
-## Privacidade
-
-- Compartilhe o ZIP original, não a pasta de trabalho depois de configurá-la.
-- Não compartilhe `.env`, `.venv`, jobs, logs, áudios, avatares ou referências pessoais por acidente.
-- `.gitignore` exclui segredos e arquivos de produção, mas isso não protege um ZIP feito manualmente da pasta inteira.
-- Revogue qualquer chave exposta e crie outra; não basta apagar a mensagem ou o arquivo.
-
-Os arquivos próprios deste kit podem ser copiados e adaptados. Dependências de terceiros preservam suas licenças; FFmpeg, bibliotecas, plataformas e mídias não são relicenciados pelo kit.
+Leia os [cuidados de configuração e compartilhamento](docs/privacy.md) antes de produzir. Os serviços, bibliotecas e mídias mantêm suas próprias condições de uso.

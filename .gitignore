@@ -9,3 +9,7 @@ __pycache__/
 videos/
 private-references/
 logs/
+inputs/
+.pytest_cache/
+dist/
+*.egg-info/
